@@ -1,0 +1,391 @@
+/* =====================================================================
+   CONGUILLÍO TREKKING JOURNAL — STYLESHEET
+   =====================================================================
+   HOW TO EDIT THINGS (read me first!):
+
+   1) TO MOVE something: find its rule below and change "top" and/or
+      "left". These are PERCENTAGES of the whole board, so top:50%
+      means "halfway down the screen", left:20% means "20% in from
+      the left edge".
+
+   2) TO RESIZE something: change its "width" (most elements scale
+      proportionally from width alone). Bigger % = bigger element.
+
+   3) TO REPLACE an image: you don't need to touch this file at all —
+      just replace the file inside /images with your own, keeping the
+      exact same filename. If you want to use a different filename,
+      search this file (and index.html) for the old filename and
+      update it.
+
+   Every section below is labelled with what it controls and, where
+   useful, which image file it uses.
+   ===================================================================== */
+
+:root{
+  --ink:#2c2417; --ink-soft:#5a4c37;
+  --forest:#2f4a3c; --forest-dark:#20332a;
+  --route-baja:#3f6b3f;   /* 🎨 color of BAJA difficulty pins  */
+  --route-media:#a9762f; /* 🎨 color of MEDIA difficulty pins */
+  --route-alta:#8b3a2f;  /* 🎨 color of ALTA difficulty pins  */
+  --stamp-red:#8b3226;
+  --gold:#c99a3a;
+  --ledger:#efe7cd; --ledger-line:rgba(60,45,25,0.14);
+  --khaki:#6a6f4c; --khaki-dark:#4f5439; --khaki-light:#83875f;
+  --brass:#b58a3f; --brass-dark:#8a672c;
+}
+
+*{box-sizing:border-box;}
+html, body{
+  margin:0; padding:0; height:100%; overflow:hidden; /* <- no page scrolling */
+  background:#3d2a1b;
+}
+body{ font-family:'Bitter', serif; color:var(--ink); }
+
+/* =====================================================================
+   THE BOARD ITSELF — fills the entire browser window, edge to edge.
+   Background image: images/cork-board.jpg
+   ===================================================================== */
+.scrapboard{
+  position:relative;
+  width:100vw;
+  height:100vh;
+  background-image:url('images/cork-board.jpg');
+  background-size:cover;
+  background-position:center;
+  /* no border, no shadow, no frame on purpose */
+}
+
+/* generic small circular pin used at the corners of pinned objects */
+.tack{
+  position:absolute; width:14px; height:14px; border-radius:50%;
+  box-shadow:0 3px 5px rgba(0,0,0,0.55);
+  z-index:6;
+}
+
+/* =====================================================================
+   TITLE PLAQUE — position/size here
+   Icon image: images/emblem.svg
+   ===================================================================== */
+.title-plaque{
+  position:absolute; top:1.5%; left:50%; transform:translateX(-50%);
+  width:38%; min-width:280px;
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.1), transparent 60%),
+    linear-gradient(160deg, #dccaa0, #c7ab77 55%, #b3925f);
+  border:3px solid #3d2a1b;
+  border-radius:6px;
+  padding:14px 18px 16px;
+  text-align:center;
+  box-shadow:0 12px 26px rgba(0,0,0,0.5);
+  z-index:5;
+}
+.title-plaque .tack{ top:-7px; left:50%; transform:translateX(-50%); background:radial-gradient(circle at 35% 30%, #8a3a30, #5c211a 75%); }
+.title-plaque .ring{
+  width:52px; height:52px; border-radius:50%;
+  margin:0 auto 4px;
+  background:radial-gradient(circle at 35% 30%, #e7dcc0, var(--brass) 55%, var(--brass-dark) 100%);
+  border:2px solid #3d2a1b;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 3px 8px rgba(0,0,0,0.4) inset, 0 2px 4px rgba(0,0,0,0.3);
+}
+h1.title{
+  font-family:'Special Elite', monospace;
+  font-size:clamp(16px,2.1vw,26px);
+  letter-spacing:0.03em;
+  color:var(--ink);
+  margin:0 0 4px;
+  text-shadow:0 1px 0 rgba(255,255,255,0.25);
+}
+.subtitle{
+  font-size:clamp(9px,1vw,11.5px);
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--forest-dark);
+  font-family:'Special Elite', monospace;
+}
+.subtitle .sep{ color:var(--stamp-red); margin:0 5px; }
+
+/* =====================================================================
+   TREKKING POLES (decorative) — image: images/trekking-poles.svg
+   Move/resize with top/left/width. Negative left = bleeds off edge.
+   ===================================================================== */
+.poles{
+  position:absolute; left:-1.5%; top:8%; width:8%; height:56%;
+  z-index:3; opacity:0.94;
+  filter:drop-shadow(2px 6px 6px rgba(0,0,0,0.4));
+}
+.poles img{ width:100%; height:100%; object-fit:contain; }
+
+/* =====================================================================
+   DECORATIVE POSTCARD STICKERS — images: postcard-1.svg / postcard-2.svg
+   ===================================================================== */
+.deco-postcard{
+  position:absolute;
+  background:#f4efe2;
+  padding:5px 5px 14px;
+  box-shadow:0 6px 14px rgba(0,0,0,0.4);
+  z-index:4;
+}
+.deco-postcard img{ width:100%; height:auto; display:block; }
+.deco-postcard .tack{ top:-7px; left:50%; transform:translateX(-50%); }
+.pc1{ top:2.5%; left:4%; width:11%; transform:rotate(-7deg); }
+.pc1 .tack{ background:radial-gradient(circle at 35% 30%, #d8a83b, #8a672c 75%); }
+.pc2{ top:75%; left:2.5%; width:12%; transform:rotate(5deg); }
+.pc2 .tack{ background:radial-gradient(circle at 35% 30%, #4a6b4a, #2c422c 75%); }
+
+/* =====================================================================
+   STICKERS — images: sticker-star.svg / sticker-mountain.svg
+   Purely decorative, positioned individually via inline style in HTML.
+   Change their "top"/"left"/"width" directly in index.html, or just
+   drop new <img class="sticker ..."> lines there for more stickers.
+   ===================================================================== */
+.sticker{ position:absolute; z-index:4; filter:drop-shadow(0 3px 4px rgba(0,0,0,0.35)); }
+.sticker.star{ width:5.5%; }
+.sticker.mountain{ width:6.5%; }
+
+/* =====================================================================
+   MAP (big rectangle) — image: images/park-map.jpg
+   Position/size the whole map here. Pins are positioned as % of THIS
+   box (see script.js "pin:{x,y}" per trail — those numbers are
+   percentages relative to the map image itself, not the whole page).
+   ===================================================================== */
+.map-frame{
+  position:absolute; top:14%; left:14%; width:53%;
+  transform:rotate(-0.8deg);
+  box-shadow:0 14px 30px rgba(0,0,0,0.55);
+  z-index:2;
+}
+.map-frame img{ width:100%; display:block; }
+.map-frame .tack.tl{ top:-7px; left:5%; background:radial-gradient(circle at 35% 30%, #d8a83b, #8a672c 75%); }
+.map-frame .tack.tr{ top:-7px; right:5%; background:radial-gradient(circle at 35% 30%, #8a3a30, #5c211a 75%); }
+.map-frame .tack.bl{ bottom:-7px; left:6%; background:radial-gradient(circle at 35% 30%, #4a6b4a, #2c422c 75%); }
+.map-frame .tack.br{ bottom:-7px; right:6%; background:radial-gradient(circle at 35% 30%, #4a6b4a, #2c422c 75%); }
+
+.map-pin-btn{
+  position:absolute;
+  transform:translate(-50%,-100%);
+  background:none; border:none; padding:0; margin:0;
+  cursor:pointer;
+  display:flex; flex-direction:column; align-items:center;
+  filter:drop-shadow(0 3px 3px rgba(0,0,0,0.5));
+  transition: transform 0.15s ease;
+  z-index:7;
+}
+.map-pin-btn:hover{ transform:translate(-50%,-100%) scale(1.15); }
+.map-pin-btn:focus-visible{ outline:3px solid var(--gold); outline-offset:3px; border-radius:50%; }
+
+/* The pin's SHAPE comes from images/pin-marker.svg (used as a mask),
+   its COLOR comes from the CSS variables above (--route-baja etc).
+   Want a different pin shape? Replace images/pin-marker.svg.
+   Want different colors? Edit the --route-* variables at the top. */
+.pin-head{
+  width:20px; height:20px;
+  -webkit-mask-image:url('images/pin-marker.svg');
+  mask-image:url('images/pin-marker.svg');
+  -webkit-mask-size:contain; mask-size:contain;
+  -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+  -webkit-mask-position:center; mask-position:center;
+  box-shadow:0 2px 4px rgba(0,0,0,0.45);
+  position:relative;
+}
+.pin-head.d-baja{ background-color:var(--route-baja); }
+.pin-head.d-media{ background-color:var(--route-media); }
+.pin-head.d-alta{ background-color:var(--route-alta); }
+
+.pin-check{
+  position:absolute; top:-5px; right:-7px;
+  width:13px; height:13px; border-radius:50%;
+  background:var(--forest-dark);
+  border:1.4px solid #fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:8px; color:#fff; line-height:1;
+}
+.pin-label{
+  font-family:'Special Elite', monospace;
+  font-size:9.5px;
+  color:var(--ink);
+  background:rgba(244,239,226,0.95);
+  padding:1px 5px;
+  margin-top:2px;
+  white-space:nowrap;
+  box-shadow:0 1px 3px rgba(0,0,0,0.4);
+  display:none;
+}
+.map-pin-btn:hover .pin-label, .map-pin-btn:focus-visible .pin-label{ display:block; }
+
+/* =====================================================================
+   NOTEBOOK — "Cuaderno de campo" (small rectangle)
+   ===================================================================== */
+.notebook{
+  position:absolute; top:14%; left:70%; width:27%;
+  background:linear-gradient(155deg, var(--khaki-light), var(--khaki) 60%, var(--khaki-dark));
+  padding:4px;
+  box-shadow:0 12px 24px rgba(0,0,0,0.5);
+  border-radius:2px;
+  z-index:5;
+  max-height:58%;
+  display:flex; flex-direction:column;
+}
+.notebook-strap{ position:absolute; top:0; bottom:0; right:20px; width:10px; background:linear-gradient(90deg, #3a3324, #55503a 50%, #3a3324); z-index:2; }
+.brass-corner{ position:absolute; width:15px; height:15px; z-index:3; background:linear-gradient(135deg, #e0c064, var(--brass) 50%, var(--brass-dark)); }
+.brass-corner.tl{ top:0; left:0; clip-path:polygon(0 0,100% 0,0 100%); }
+.brass-corner.tr{ top:0; right:0; clip-path:polygon(100% 0,100% 100%,0 0); }
+.notebook-inner{
+  background:var(--ledger);
+  background-image:repeating-linear-gradient(var(--ledger) 0 22px, var(--ledger-line) 22px 23px);
+  padding:12px 12px 10px;
+  overflow-y:auto;
+  flex:1;
+}
+.log-title{ font-family:'Special Elite', monospace; font-size:clamp(11px,1.3vw,14px); color:var(--forest-dark); margin:0 0 8px; padding-bottom:5px; border-bottom:2px solid var(--ink-soft); }
+.stat-row{ display:flex; justify-content:space-between; align-items:baseline; margin:6px 0; }
+.stat-label{ font-size:clamp(8.5px,0.95vw,11px); color:var(--ink-soft); }
+.stat-value{ font-family:'JetBrains Mono', monospace; font-weight:700; font-size:clamp(9px,1.05vw,12.5px); color:var(--stamp-red); }
+.tape-meter{ position:relative; height:20px; margin:10px 0 4px; background:repeating-linear-gradient(90deg, var(--ink) 0 1px, transparent 1px 10%), #e6dab5; border:1px solid rgba(0,0,0,0.3); }
+.tape-fill{ position:absolute; top:0; left:0; bottom:0; background:linear-gradient(180deg, var(--forest), var(--forest-dark)); width:0%; transition:width 0.6s cubic-bezier(.4,1.4,.6,1); }
+.tape-marker{ position:absolute; top:-4px; width:2px; height:28px; background:var(--stamp-red); transition:left 0.6s cubic-bezier(.4,1.4,.6,1); }
+.tape-caption{ font-size:8.5px; color:var(--ink-soft); display:flex; justify-content:space-between; font-family:'JetBrains Mono', monospace; }
+.divider{ border:none; border-top:1px dashed var(--ledger-line); margin:10px 0; }
+.completed-item{ display:flex; justify-content:space-between; gap:6px; font-size:clamp(8.5px,1vw,11.5px); padding:5px 1px; border-bottom:1px solid var(--ledger-line); }
+.completed-item:last-child{ border-bottom:none; }
+.completed-item .stamp-mini{ font-family:'Special Elite', monospace; font-size:8px; color:var(--stamp-red); border:1px solid var(--stamp-red); padding:1px 4px; transform:rotate(-6deg); border-radius:2px; opacity:0.85; white-space:nowrap; }
+.empty-note{ font-size:10.5px; color:var(--ink-soft); font-style:italic; }
+.reset-link{ background:none; border:none; text-decoration:underline; cursor:pointer; font-family:'Bitter'; font-size:9.5px; color:var(--ink-soft); padding:0; margin-top:8px; }
+
+/* =====================================================================
+   BADGE SLOTS — invisible circles until earned. Icons: images/badge-*.svg
+   Move a slot: edit its "top"/"left" in index.html (inline style).
+   ===================================================================== */
+.badge-slot{ position:absolute; width:8.5%; aspect-ratio:1; z-index:5; }
+.badge-slot .patch{
+  width:100%; height:100%; border-radius:50%;
+  display:none; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; font-size:clamp(6.5px,0.8vw,8.5px); line-height:1.15; font-family:'Bitter'; font-weight:700;
+  color:#f1e6c8; padding:6% 8%;
+  border:2px solid var(--brass);
+  background:radial-gradient(circle at 35% 30%, #dcc686, var(--forest) 60%, var(--forest-dark));
+  box-shadow:0 4px 10px rgba(0,0,0,0.45), 0 0 0 3px rgba(0,0,0,0.15) inset;
+  animation: pop-in 0.5s ease;
+}
+.badge-slot.unlocked .patch{ display:flex; }
+.badge-slot .patch img{ width:35%; margin-bottom:2px; }
+.badge-slot .tack{ top:-6px; left:50%; transform:translateX(-50%); z-index:6; display:none; }
+.badge-slot.unlocked .tack{ display:block; }
+@keyframes pop-in{ 0%{ transform:scale(0.3) rotate(-15deg); opacity:0; } 70%{ transform:scale(1.12) rotate(4deg); opacity:1;} 100%{ transform:scale(1) rotate(0); } }
+
+/* =====================================================================
+   ENVELOPE — image: images/envelope.svg
+   ===================================================================== */
+.envelope-wrap{ position:absolute; top:78%; left:75%; width:19%; z-index:5; cursor:pointer; transform:rotate(3deg); transition:transform 0.15s ease; }
+.envelope-wrap:hover{ transform:rotate(1deg) scale(1.03); }
+.envelope-wrap .tack{ top:-6px; left:50%; transform:translateX(-50%); background:radial-gradient(circle at 35% 30%, #8a3a30, #5c211a 75%); z-index:8; }
+.envelope-body{ position:relative; }
+.envelope-body img{ width:100%; display:block; filter:drop-shadow(0 8px 16px rgba(0,0,0,0.45)); }
+.envelope-label{ position:absolute; bottom:10%; left:50%; transform:translateX(-50%); font-family:'Special Elite', monospace; font-size:clamp(8px,0.95vw,11px); color:#e9e1c4; letter-spacing:0.08em; }
+.envelope-count{ position:absolute; top:-8px; right:-8px; background:var(--stamp-red); color:#fff; border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:10px; font-weight:700; box-shadow:0 2px 4px rgba(0,0,0,0.4); z-index:9; }
+.envelope-count.hide{ display:none; }
+
+.board-credit{ position:absolute; bottom:0.6%; left:50%; transform:translateX(-50%); font-size:10px; color:#f1e6c8; opacity:0.45; white-space:nowrap; z-index:1; }
+
+/* =====================================================================
+   MOBILE FALLBACK — on narrow screens the board becomes a normal
+   scrollable page instead of a fixed canvas (small phones can't show
+   a corkboard nicely, so we simplify instead of shrinking everything).
+   ===================================================================== */
+@media (max-width: 760px){
+  html, body{ overflow:auto; height:auto; }
+  .scrapboard{ width:100%; height:auto; display:flex; flex-direction:column; gap:16px; padding:16px 12px 20px; }
+  .scrapboard > *{ position:static !important; width:100% !important; max-width:100% !important; left:auto !important; top:auto !important; right:auto !important; bottom:auto !important; transform:none !important; margin:0 auto !important; }
+  .poles, .deco-postcard, .sticker{ display:none !important; }
+  .title-plaque{ order:1; width:100% !important; }
+  .map-frame{ order:2; }
+  .notebook{ order:4; max-height:none !important; }
+  .badge-slot{ position:static !important; width:74px !important; display:inline-block !important; margin:4px !important; }
+  .envelope-wrap{ order:6; width:150px !important; margin:0 auto !important; }
+  .board-credit{ position:static !important; order:7; opacity:0.6; }
+}
+
+/* =====================================================================
+   TRAIL DETAIL CARD (modal that opens when you click a pin)
+   ===================================================================== */
+.overlay{ position:fixed; inset:0; background:rgba(15,10,5,0.6); display:none; align-items:center; justify-content:center; padding:20px; z-index:50; }
+.overlay.open{ display:flex; }
+.card{
+  background:var(--ledger);
+  background-image:repeating-linear-gradient(var(--ledger) 0 26px, var(--ledger-line) 26px 27px);
+  max-width:490px; width:100%; max-height:88vh; overflow-y:auto;
+  padding:28px 26px 22px; position:relative; box-shadow:0 20px 50px rgba(0,0,0,0.55);
+}
+.card::before{ content:''; position:absolute; top:-9px; left:50%; transform:translateX(-50%); width:18px; height:18px; border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, #8a3a30, #5c211a 75%); box-shadow:0 3px 5px rgba(0,0,0,0.5); }
+.card-close{ position:absolute; top:12px; right:14px; background:none; border:none; font-size:19px; cursor:pointer; color:var(--ink-soft); }
+.card-close:hover{ color:var(--stamp-red); }
+.card h2{ font-family:'Special Elite', monospace; font-size:22px; margin:6px 0 4px; color:var(--forest-dark); }
+.card .zone-tag{ font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-soft); font-weight:600; }
+.meta-row{ display:flex; flex-wrap:wrap; gap:10px; margin:12px 0 14px; font-family:'JetBrains Mono', monospace; font-size:11.5px; }
+.meta-chip{ background:rgba(0,0,0,0.06); border:1px solid rgba(0,0,0,0.15); padding:4px 9px; }
+.diff-baja{ color:var(--route-baja); }
+.diff-media{ color:var(--route-media); }
+.diff-alta{ color:var(--route-alta); }
+.card p.desc{ font-size:14px; line-height:1.55; color:var(--ink); margin:0 0 12px; }
+.highlights{ margin:0 0 16px; padding-left:18px; font-size:13px; color:var(--ink-soft); line-height:1.6; }
+.status-line{ display:flex; align-items:center; gap:8px; font-size:13px; margin-bottom:12px; }
+.status-dot{ width:9px; height:9px; border-radius:50%; }
+.status-dot.pending{ background:var(--ink-soft); }
+.status-dot.done{ background:var(--forest); }
+.stamp-done{ display:inline-block; font-family:'Special Elite', monospace; color:var(--stamp-red); border:2px solid var(--stamp-red); border-radius:4px; padding:2px 8px; transform:rotate(-7deg); font-size:12px; opacity:0.85; }
+.btn{ font-family:'Bitter'; font-weight:600; font-size:13px; padding:9px 16px; border:none; cursor:pointer; background:var(--forest); color:#fff; box-shadow:0 3px 6px rgba(0,0,0,0.3); }
+.btn:hover{ background:var(--forest-dark); }
+.btn.secondary{ background:transparent; color:var(--stamp-red); border:1px solid var(--stamp-red); box-shadow:none; }
+.btn.secondary:hover{ background:rgba(139,50,38,0.08); }
+.btn.danger{ background:transparent; color:var(--ink-soft); border:1px solid var(--ledger-line); box-shadow:none; font-weight:400; font-size:12px; }
+.form-block label{ display:block; font-size:12px; color:var(--ink-soft); margin:10px 0 4px; font-weight:600; }
+.form-block input[type="date"], .form-block textarea{ width:100%; font-family:'Bitter'; font-size:13px; color:var(--ink); background:rgba(0,0,0,0.04); border:1px solid rgba(0,0,0,0.2); padding:8px 10px; }
+.form-block textarea{ resize:vertical; min-height:70px; }
+.star-picker{ display:flex; gap:4px; font-size:21px; }
+.star-picker button{ background:none; border:none; cursor:pointer; padding:0; color:#c2b48a; }
+.star-picker button.active{ color:var(--gold); }
+.review-display{ background:rgba(0,0,0,0.04); border-left:3px solid var(--forest); padding:10px 12px; font-size:13px; color:var(--ink); font-style:italic; margin-top:8px; }
+.review-meta{ font-size:11px; color:var(--ink-soft); margin-top:4px; font-style:normal; }
+.btn-row{ display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; align-items:center; }
+
+/* =====================================================================
+   PHOTO GALLERY MODAL + "VINTAGE CAMERA" LOOK FOR UPLOADED PHOTOS
+   Want to change the vintage effect? Edit ".polaroid img" below.
+   ===================================================================== */
+.photo-card{ background:var(--ledger); max-width:640px; width:100%; max-height:88vh; overflow-y:auto; padding:24px 24px 20px; position:relative; box-shadow:0 20px 50px rgba(0,0,0,0.55); }
+.photo-card h2{ font-family:'Special Elite', monospace; font-size:20px; color:var(--forest-dark); margin:4px 0 14px; }
+.upload-btn{ display:inline-block; font-family:'Bitter'; font-weight:600; font-size:13px; padding:9px 16px; background:var(--forest); color:#fff; cursor:pointer; box-shadow:0 3px 6px rgba(0,0,0,0.3); }
+.upload-btn:hover{ background:var(--forest-dark); }
+.upload-btn input{ display:none; }
+.photo-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(130px,1fr)); gap:18px; margin-top:18px; }
+.polaroid{ background:#fff; padding:8px 8px 22px; box-shadow:0 6px 14px rgba(0,0,0,0.35); position:relative; cursor:pointer; }
+.polaroid .photo-wrap{ position:relative; overflow:hidden; aspect-ratio:1/1; }
+.polaroid img{
+  width:100%; height:100%; display:block; object-fit:cover;
+  /* 📸 vintage / digital-camera filter — tweak these values freely */
+  filter: sepia(0.18) saturate(1.25) contrast(1.08) brightness(1.03);
+}
+.polaroid .photo-wrap::after{
+  /* soft vignette + warm color cast on top of the photo */
+  content:'';
+  position:absolute; inset:0;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(20,10,0,0.35) 100%);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+  mix-blend-mode:multiply;
+  pointer-events:none;
+}
+.polaroid .timestamp{
+  position:absolute; right:6px; bottom:6px;
+  font-family:'JetBrains Mono', monospace;
+  font-size:10px; letter-spacing:0.05em;
+  color:#ff9d3d;
+  text-shadow:0 0 3px rgba(255,120,0,0.7), 0 0 1px rgba(0,0,0,0.8);
+}
+.polaroid .del{ position:absolute; top:4px; right:4px; background:rgba(139,50,38,0.9); color:#fff; border:none; width:20px; height:20px; border-radius:50%; font-size:12px; cursor:pointer; line-height:1; z-index:2; }
+.photo-empty{ font-size:13px; color:var(--ink-soft); font-style:italic; margin-top:14px; }
+.lightbox-view{ margin-top:16px; position:relative; }
+.lightbox-view img{ width:100%; display:block; box-shadow:0 10px 24px rgba(0,0,0,0.4); filter: sepia(0.18) saturate(1.25) contrast(1.08) brightness(1.03); }
+
+.toast{ position:fixed; bottom:22px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--forest-dark); color:#e9e1c4; padding:10px 20px; font-family:'Bitter'; font-size:13px; box-shadow:0 6px 16px rgba(0,0,0,0.45); opacity:0; transition:all 0.3s ease; pointer-events:none; z-index:60; }
+.toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }

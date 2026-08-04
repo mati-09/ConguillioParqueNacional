@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diario de Trekking — Conguillío</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Caveat:wght@500;600;700&family=Bitter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="scrapboard" id="scrapboard">
+
+  <!-- ============================================================
+       TREKKING POLES — decorative, left edge
+       To swap: replace images/trekking-poles.svg with your own file
+       (same filename), or change the src/size/position in style.css
+       under ".poles" and ".poles img"
+  ============================================================= -->
+  <div class="poles">
+    <img src="images/trekking-poles.svg" alt="">
+  </div>
+
+  <!-- DECORATIVE POSTCARDS (just flavor, not clickable) -->
+  <div class="deco-postcard pc1">
+    <span class="tack"></span>
+    <img src="images/postcard-1.svg" alt="">
+  </div>
+  <div class="deco-postcard pc2">
+    <span class="tack"></span>
+    <img src="images/postcard-2.svg" alt="">
+  </div>
+
+  <!-- STICKERS (decorative) -->
+  <img class="sticker star" src="images/sticker-star.svg" alt="" style="top:69%; left:62%;">
+  <img class="sticker mountain" src="images/sticker-mountain.svg" alt="" style="top:60%; left:90%;">
+  <img class="sticker star" src="images/sticker-star.svg" alt="" style="top:91%; left:58%; width:4.5%;">
+
+  <!-- TITLE -->
+  <div class="title-plaque">
+    <span class="tack"></span>
+    <div class="ring">
+      <img src="images/emblem.svg" alt="" width="34" height="34">
+    </div>
+    <h1 class="title">DIARIO DE TREKKING</h1>
+    <div class="subtitle">Parque Nacional Conguillío <span class="sep">·</span> Araucanía Andina</div>
+  </div>
+
+  <!-- MAP (big rectangle) -->
+  <div class="map-frame">
+    <span class="tack tl"></span>
+    <span class="tack tr"></span>
+    <span class="tack bl"></span>
+    <span class="tack br"></span>
+    <img src="images/park-map.jpg" alt="Mapa del Parque Nacional Conguillío" id="mapImg">
+    <div id="pinLayer"></div>
+  </div>
+
+  <!-- NOTEBOOK: Cuaderno de Campo (small rectangle) -->
+  <div class="notebook">
+    <div class="notebook-strap"></div>
+    <div class="brass-corner tl"></div>
+    <div class="brass-corner tr"></div>
+    <div class="notebook-inner">
+      <h3 class="log-title">Cuaderno de campo</h3>
+      <div class="stat-row"><span class="stat-label">Senderos completados</span><span class="stat-value" id="statTrails">0 / 0</span></div>
+      <div class="stat-row"><span class="stat-label">Km recorridos</span><span class="stat-value" id="statKm">0.0 / 0.0</span></div>
+      <div class="tape-meter">
+        <div class="tape-fill" id="tapeFill"></div>
+        <div class="tape-marker" id="tapeMarker" style="left:0%"></div>
+      </div>
+      <div class="tape-caption"><span>0 km</span><span id="tapeMaxLabel">0 km</span></div>
+      <hr class="divider">
+      <h3 class="log-title" style="font-size:12px;">Bitácora de rutas</h3>
+      <div id="completedList"></div>
+      <button class="reset-link" id="resetBtn">Borrar todo mi progreso</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       BADGE SLOTS — completely invisible (no circle, no border)
+       until earned. Each has a unique id used in script.js.
+       To swap an icon: replace the matching images/badge-*.svg
+  ============================================================= -->
+  <div class="badge-slot" id="slot-first" style="top:4%; left:63%;">
+    <span class="tack" style="background:radial-gradient(circle at 35% 30%, #d8a83b, #8a672c 75%);"></span>
+    <div class="patch"><img src="images/badge-first.svg" alt="">Primer paso</div>
+  </div>
+  <div class="badge-slot" id="slot-10km" style="top:4%; left:92%;">
+    <span class="tack" style="background:radial-gradient(circle at 35% 30%, #8a3a30, #5c211a 75%);"></span>
+    <div class="patch"><img src="images/badge-10km.svg" alt="">10 km</div>
+  </div>
+  <div class="badge-slot" id="slot-25km" style="top:35%; left:94%;">
+    <span class="tack" style="background:radial-gradient(circle at 35% 30%, #4a6b4a, #2c422c 75%);"></span>
+    <div class="patch"><img src="images/badge-25km.svg" alt="">25 km</div>
+  </div>
+  <div class="badge-slot" id="slot-half" style="top:56%; left:63%;">
+    <span class="tack" style="background:radial-gradient(circle at 35% 30%, #d8a83b, #8a672c 75%);"></span>
+    <div class="patch"><img src="images/badge-half.svg" alt="">Mitad del parque</div>
+  </div>
+  <div class="badge-slot" id="slot-volcanes" style="top:72%; left:94%;">
+    <span class="tack" style="background:radial-gradient(circle at 35% 30%, #8a3a30, #5c211a 75%);"></span>
+    <div class="patch"><img src="images/badge-volcanoes.svg" alt="">Ambos volcanes</div>
+  </div>
+  <div class="badge-slot" id="slot-all" style="top:5%; left:42%; width:6.5%;">
+    <span class="tack" style="background:radial-gradient(circle at 35% 30%, #4a6b4a, #2c422c 75%);"></span>
+    <div class="patch"><img src="images/badge-all.svg" alt="">Maestro</div>
+  </div>
+
+  <!-- ENVELOPE: photo uploads -->
+  <div class="envelope-wrap" id="envelopeBtn">
+    <span class="tack"></span>
+    <div class="envelope-body">
+      <span class="envelope-count hide" id="envelopeCount">0</span>
+      <img src="images/envelope.svg" alt="">
+      <div class="envelope-label">FOTOS</div>
+    </div>
+  </div>
+
+  <div class="board-credit">hecho a mano para quien se está por perder un poco entre araucarias 🌲</div>
+</div>
+
+<!-- TRAIL MODAL -->
+<div class="overlay" id="overlay">
+  <div class="card" id="card"></div>
+</div>
+
+<!-- PHOTO MODAL -->
+<div class="overlay" id="photoOverlay">
+  <div class="photo-card" id="photoCard"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
