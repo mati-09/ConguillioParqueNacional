@@ -110,7 +110,7 @@ h1.title{
    Move/resize with top/left/width. Negative left = bleeds off edge.
    ===================================================================== */
 .poles{
-  position:absolute; left:-1.5%; top:8%; width:50%; height:56%;
+  position:absolute; left:-10%; top:8%; width:100%; height:56%;
   z-index:3; opacity:0.94;
   filter:drop-shadow(2px 6px 6px rgba(0,0,0,0.4));
 }
