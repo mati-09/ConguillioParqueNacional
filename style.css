@@ -276,7 +276,7 @@ h1.title{
 /* =====================================================================
    ENVELOPE — image: images/envelope.svg
    ===================================================================== */
-.envelope-wrap{ position:absolute; top:78%; left:75%; width:19%; z-index:5; cursor:pointer; transform:rotate(3deg); transition:transform 0.15s ease; }
+.envelope-wrap{ position:absolute; top:60%; left:75%; width:19%; z-index:5; cursor:pointer; transform:rotate(3deg); transition:transform 0.15s ease; }
 .envelope-wrap:hover{ transform:rotate(1deg) scale(1.03); }
 .envelope-wrap .tack{ top:-6px; left:50%; transform:translateX(-50%); background:radial-gradient(circle at 35% 30%, #8a3a30, #5c211a 75%); z-index:8; }
 .envelope-body{ position:relative; }
